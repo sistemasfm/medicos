@@ -19,9 +19,13 @@ public class AuthService {
         usuario.setUsername(dto.getUsername());
         usuario.setEmail(dto.getEmail());
         usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        
         List<String> roles = new ArrayList<>();
+        
         roles.add("ROLE_PACIENTE");
+        
         usuario.setRoles(roles);
+        
         usuarioStore.guardar(usuario);
     }
 }

@@ -13,12 +13,16 @@ import java.util.Map;
 public class PacienteController {
     @GetMapping("/me")
     public ResponseEntity<Map<String, Object>> miPerfil(Authentication auth) {
+       
         Usuario usuario = (Usuario) auth.getPrincipal();
+       
         Map<String, Object> perfil = new HashMap<>();
+       
         perfil.put("id", usuario.getId());
         perfil.put("username", usuario.getUsername());
         perfil.put("email", usuario.getEmail());
         perfil.put("roles", usuario.getRoles());
+       
         return ResponseEntity.ok(perfil);
     }
 }

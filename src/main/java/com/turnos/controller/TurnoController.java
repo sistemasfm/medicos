@@ -24,7 +24,9 @@ public class TurnoController {
         turnos.add(turno2);
     }
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> listarTurnos() { return ResponseEntity.ok(turnos); }
+    public ResponseEntity<List<Map<String, Object>>> listarTurnos() { 
+        return ResponseEntity.ok(turnos); 
+    }
     @PostMapping
     public ResponseEntity<Map<String, Object>> crearTurno(@RequestBody Map<String, Object> datosTurno, Authentication auth) {
         Map<String, Object> turnoNuevo = new HashMap<>();
@@ -39,7 +41,11 @@ public class TurnoController {
     @PreAuthorize("hasRole('ADMIN') or (hasRole('MEDICO') and @turnoSecurityService.esMedicoDelTurno(authentication, #id, @turnoController.turnos))")
     public ResponseEntity<Void> eliminarTurno(@PathVariable Long id) {
         Map<String, Object> encontrado = null;
-        for (Map<String, Object> t : turnos) if (((Long)t.get("id")).equals(id)) { encontrado = t; break; }
+        for (Map<String, Object> t : turnos) 
+            if (((Long)t.get("id")).equals(id)) {
+                 encontrado = t; 
+                 break; 
+                }
         if (encontrado == null) return ResponseEntity.notFound().build();
         turnos.remove(encontrado);
         return ResponseEntity.noContent().build();

@@ -31,9 +31,16 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/turnos/**").hasAnyRole("ADMIN", "MEDICO")
                 .requestMatchers(HttpMethod.GET, "/api/pacientes/me").hasRole("PACIENTE")
                 .anyRequest().authenticated());
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+        
+                http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        
+                return http.build();
     }
-    @Bean public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
-    @Bean public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception { return config.getAuthenticationManager(); }
+    @Bean public PasswordEncoder passwordEncoder() { 
+        return new BCryptPasswordEncoder(); 
+    }
+    
+    @Bean public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception { 
+        return config.getAuthenticationManager(); 
+    }
 }

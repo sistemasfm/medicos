@@ -5,11 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class RegisterRequestDTO {
-    @NotBlank @Size(min = 4, max = 20)
+    @NotBlank(message = "El nombre no puede ser nulo")  
+    @Size(min = 4, max = 20, message = "La longitud de ser mínimo 4 y máximo 20 caracteres.")
     private String username;
-    @NotBlank @Email
+    @NotBlank (message = "El email no puede ser nulo")  
+    @Email(message = "Debe ser una dirección de correo válida")  
     private String email;
-    @NotBlank @Size(min = 8)
+    @NotBlank (message = "El password no puede ser nulo")  
+    @Size(min = 8, message = "La longitud de contraseña debe ser de al menos 8 caracteres")
     private String password;
     public String getUsername() { return username; }
     public String getEmail() { return email; }

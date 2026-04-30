@@ -12,7 +12,8 @@ public class TurnoSecurityService {
         String medicoUsername = authentication.getName();
         for (Map<String, Object> turno : turnos) {
             Long id = (Long) turno.get("id");
-            if (id.equals(turnoId)) return medicoUsername.equals((String) turno.get("medico"));
+            if (id.equals(turnoId)) 
+                return medicoUsername.equals((String) turno.get("medico"));
         }
         return false;
     }

@@ -17,11 +17,14 @@ import java.nio.charset.StandardCharsets;
 public class JwtUtils {
     @Value("${jwt.secret}")
     private String secret;
+    
     @Value("${jwt.expiration}")
     private long expirationMs;
+    
     public String generarToken(String username, List<String> roles) {
         Date ahora = new Date();
         Date expiracion = new Date(ahora.getTime() + expirationMs);
+        
         return Jwts.builder()
                 .setSubject(username)
                 .claim("roles", roles)

@@ -25,27 +25,46 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+    
     @Autowired private AuthService authService;
+    
     @Autowired private UsuarioStore usuarioStore;
+    
     @Autowired private AuthenticationManager authenticationManager;
+    
     @Autowired private JwtUtils jwtUtils;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequestDTO request) {
-        if (usuarioStore.existeUsername(request.getUsername())) return ResponseEntity.status(409).body("El username ya esta en uso");
-        if (usuarioStore.existeEmail(request.getEmail())) return ResponseEntity.status(409).body("El email ya esta registrado");
+        
+        if (usuarioStore.existeUsername(request.getUsername())) 
+            return ResponseEntity.status(409).body("El username ya esta en uso");
+        
+        if (usuarioStore.existeEmail(request.getEmail())) 
+            return ResponseEntity.status(409).body("El email ya esta registrado");
+        
         authService.registrar(request);
+        
         return ResponseEntity.status(201).body("Usuario registrado correctamente");
     }
 
+    
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
+    
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
+        
         Usuario usuario = (Usuario) auth.getPrincipal();
+    
         List<String> roles = new ArrayList<>();
-        for (GrantedAuthority authority : usuario.getAuthorities()) roles.add(authority.getAuthority());
+        
+        for (GrantedAuthority authority : usuario.getAuthorities()) 
+            roles.add(authority.getAuthority());
+        
         String token = jwtUtils.generarToken(usuario.getUsername(), roles);
+        
         return ResponseEntity.ok(new AuthResponseDTO(token, jwtUtils.getExpirationSeconds(), usuario.getUsername()));
     }
 }
