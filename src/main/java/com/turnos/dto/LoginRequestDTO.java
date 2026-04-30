@@ -3,9 +3,9 @@ package com.turnos.dto;
 import jakarta.validation.constraints.NotBlank;
 
 public class LoginRequestDTO {
-    @NotBlank
+    @NotBlank(message = "El username no puede estar vacío")
     private String username;
-    @NotBlank
+    @NotBlank(message = "La contraseña no puede estar vacía")
     private String password;
     public String getUsername() { return username; }
     public String getPassword() { return password; }

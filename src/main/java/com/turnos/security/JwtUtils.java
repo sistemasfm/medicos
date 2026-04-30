@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 
 @Component
 public class JwtUtils {
+    //Con @Value recuperamos el valor cargado en el application.properties
     @Value("${jwt.secret}")
     private String secret;
     
@@ -58,7 +59,9 @@ public class JwtUtils {
     public long getExpirationSeconds() {
         return expirationMs / 1000;
     }
-
+    
+    // Genera la clave HMAC a partir del secreto configurado, aceptando texto plano o 
+    // Base64 con prefijo "base64:".
     private SecretKey getSigningKey() {
         byte[] keyBytes = secret.startsWith("base64:")
                 ? Decoders.BASE64.decode(secret.substring(7))

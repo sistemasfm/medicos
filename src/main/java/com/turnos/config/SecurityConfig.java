@@ -23,13 +23,24 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+                // Endpoints públicos
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
+
+                // Solo MEDICO y ADMIN pueden listar turnos
                 .requestMatchers(HttpMethod.GET, "/api/turnos").hasAnyRole("MEDICO", "ADMIN")
+
+                // Solo PACIENTE puede crear un turno
                 .requestMatchers(HttpMethod.POST, "/api/turnos").hasRole("PACIENTE")
+
+                // ADMIN o MEDICO pueden intentar borrar (la lógica fina va en @PreAuthorize)
                 .requestMatchers(HttpMethod.DELETE, "/api/turnos/**").hasAnyRole("ADMIN", "MEDICO")
+
+                // Solo PACIENTE puede ver su propio perfil
                 .requestMatchers(HttpMethod.GET, "/api/pacientes/me").hasRole("PACIENTE")
+             
+                // Todo lo demás requiere autenticación
                 .anyRequest().authenticated());
         
                 http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

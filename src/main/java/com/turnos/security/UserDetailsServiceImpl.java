@@ -14,9 +14,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UsuarioStore usuarioStore;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        
+        // Buscar en la lista en memoria el usuario con ese username
         Usuario usuario = usuarioStore.buscarPorUsername(username);
+        
         if (usuario == null) 
             throw new UsernameNotFoundException("Usuario no encontrado: " + username);
+        
         return usuario;
     }
 }

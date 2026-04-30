@@ -11,6 +11,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/pacientes")
 public class PacienteController {
+
+    // ENDPOINT 7: GET /api/pacientes/me → solo PACIENTE, ve solo su propio perfil
+    // No necesita @PreAuthorize: /me siempre devuelve los datos del token actual.
+
     @GetMapping("/me")
     public ResponseEntity<Map<String, Object>> miPerfil(Authentication auth) {
        
